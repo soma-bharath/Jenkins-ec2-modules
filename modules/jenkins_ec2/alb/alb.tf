@@ -2,7 +2,7 @@ resource "aws_lb" "Jenkins_Alb" {
   name               = var.alb_name
   internal           = false
   load_balancer_type = "application"
-  subnets            = [for j in data.aws_subnet.public_subnets : j.id]
+  subnets            = var.subnet_ids_alb
   security_groups    = [aws_security_group.Spaces-prod-jenkins-alb-sg.id]
 
  tags = ({Name = var.alb_name, Project_Name = "Cisco-FedRAMP_Infrastructure", Date = local.current_date, "cdo-gov:CiscoMailAlias" = "gcc-fedramp-opstack@cisco.com", "cdo-gov:opstack:ApplicationName" = "Spaces", "cdo-gov:opstack:Environment" = "Prod", "cdo-gov:opstack:ResourceOwner" = "jagashet", deployed_fromdir = "bu-interlock-1/day-0", "cdo-gov:Opstack:DataClassificationFed" = "Direct Impact"})
