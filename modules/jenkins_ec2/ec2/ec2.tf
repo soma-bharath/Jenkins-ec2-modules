@@ -1,7 +1,7 @@
  resource "aws_instance" "my_ec2" {
   instance_type               = "t3.large"
   ami                         = "ami-0718fe4d8bab335d3" #CIS AMI ID in us-west-2 region
-  subnet_id                   = data.aws_subnet.spaces-prod-app-1a.id
+  subnet_id                   = var.private_subnet_id
   vpc_security_group_ids      = [aws_security_group.Spaces-Prod-jenkins-ec2_sg.id]
   key_name                    = aws_key_pair.jenkins_key_pair.key_name
   iam_instance_profile        = aws_iam_instance_profile.EC2_Jenkins.name
