@@ -30,3 +30,11 @@ variable "instance_name" {
 variable "security_group_name_ec2" {
   type = string
 }
+
+variable "subnet_ids_alb" {
+type = list
+}
+
+variable "private_subnet_id" {
+type = string
+}
