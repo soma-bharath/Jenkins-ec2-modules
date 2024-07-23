@@ -1,19 +1,19 @@
-data "aws_vpc" "main_vpc" {
+data "aws_vpc" "spaces-prod-app-1" {
 
   filter {
     name   = "tag:Name"
-    values = ["spaces-prod-app-1"]
+    values = [var.vpc_id]
   }
 }
 
 data "aws_subnets" "private" {
   filter {
     name   = "vpc-id"
-    values = [data.aws_vpc.main_vpc.id]
+    values = [data.aws_vpc.spaces-prod-app-1.id]
   }
   filter {
-    name   = "tag:Name"
-    values = ["spaces-prod-app*"]
+    name   = "tag:Subnet-Type"
+    values = ["private"]
   }
 }
 
@@ -25,29 +25,29 @@ data "aws_subnet" "private_subnets" {
 data "aws_subnets" "public" {
   filter {
     name   = "vpc-id"
-    values = [data.aws_vpc.main_vpc.id]
+    values = [data.aws_vpc.spaces-prod-app-1.id]
   }
   filter {
-    name   = "tag:Name"
-    values = ["spaces-prod-public*"]
-  }
-}
-
-data "aws_subnet" "public_subnet_1" {
-  filter {
-    name   = "vpc-id"
-    values = [data.aws_vpc.main_vpc.id]
-  }
-  filter {
-    name   = "tag:Name"
-    values = ["spaces-prod-public-1a"]
+    name   = "map-public-ip-on-launch"
+    values = ["true"]
   }
 }
 
-data "aws_subnet" "private_subnet_1" {
+data "aws_subnet" "spaces-prod-public-1c" {
   filter {
     name   = "vpc-id"
-    values = [data.aws_vpc.main_vpc.id]
+    values = [data.aws_vpc.spaces-prod-app-1.id]
+  }
+  filter {
+    name   = "tag:Name"
+    values = ["spaces-prod-public-1c"]
+  }
+}
+
+data "aws_subnet" "spaces-prod-app-1a" {
+  filter {
+    name   = "vpc-id"
+    values = [data.aws_vpc.spaces-prod-app-1.id]
   }
   filter {
     name   = "tag:Name"
@@ -59,20 +59,9 @@ data "aws_subnet" "public_subnets" {
   for_each = toset(data.aws_subnets.public.ids)
   id       = each.value
 }
-/*
-data "aws_route53_zone" "hosted_zone" {
-  name = "devgov.ciscospaces.io" # Replace with your hosted zone name
-}
-*/
-data "aws_route_tables" "private" {
-  filter {
-    name   = "tag:Name"
-    values = ["Space-prod-private-route-table-1"]
-  }
+
+data "aws_kms_key" "my_key" {
+  key_id = var.kms_key_id #enter your existing kms key id
 }
 
-/*
-data "aws_kms_key" "my_key" {
-  key_id = "arn:aws:kms:region:account-id:key/key-id" #enter your existing kms key id
-}
-*/
+
