@@ -1,16 +1,32 @@
 variable "env" {
-  default = "prod"
+  default = "Production"
+}
+variable "my_machine_ip" {
+  description = "IP address of your machine"
+  default     =  "96.127.73.76/32"
+  
 }
 
-variable "instancetype" {
+variable "vpc_id" {
+  type = string
 }
 
-variable "amiid" {
+variable "alb_name" {
+  type = string
 }
 
-variable "region" {
+variable "key_name" {
+  type = string
 }
 
-variable "Jenkins_server_name" {
+variable "kms_key_id" {
+  type = string
 }
 
+variable "instance_name" {
+  type = string
+}
+
+variable "security_group_name_ec2" {
+  type = string
+}
