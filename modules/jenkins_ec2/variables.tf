@@ -7,7 +7,7 @@ variable "my_machine_ip" {
   
 }
 
-variable "vpc_id" {
+variable "vpc_name" {
   type = string
 }
 
