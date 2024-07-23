@@ -2,7 +2,7 @@ data "aws_vpc" "spaces-prod-app-1" {
 
   filter {
     name   = "tag:Name"
-    values = [var.vpc_id]
+    values = [var.vpc_name]
   }
 }
 
